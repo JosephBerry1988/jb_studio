@@ -1,0 +1,27 @@
+/* JB Studio homepage canvas — styles for the elements the engine owns (#app, project button, reel info). */
+/* full-page canvas: no iOS rubber-band / Android pull-to-refresh while dragging (touch-action:none on #app blocks page zoom) */
+html,body{overscroll-behavior:none}
+#app{position:fixed;inset:0;touch-action:none;cursor:grab;overscroll-behavior:none;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
+#app.grabbing{cursor:grabbing}
+/* project link button (bottom-centre pill) */
+#projectBtn{position:fixed;left:50%;bottom:clamp(20px,6vh,52px);transform:translateX(-50%) translateY(8px);
+  padding:13px 26px;border-radius:999px;background:#f3eede;color:#0e0e0f;text-decoration:none;white-space:nowrap;
+  font-weight:600;font-size:14px;letter-spacing:.04em;box-shadow:0 6px 24px rgba(0,0,0,.35);
+  opacity:0;pointer-events:none;transition:opacity .35s ease, transform .35s ease;z-index:10}
+#projectBtn.show{opacity:1;pointer-events:auto;transform:translateX(-50%) translateY(0)}
+/* reel view — per-project info (bottom-left), only while in reel view */
+#reelInfo{position:fixed;left:clamp(16px,4vw,48px);bottom:calc(var(--iy,6)*1vh + 10px);z-index:9;color:#f3eede;--rt:1;--rm:1;
+  font-family:"Helveticaneue Light",Helveticaneue,-apple-system,sans-serif;
+  pointer-events:none;opacity:0;transform:translateY(8px);transition:opacity .4s ease,transform .4s ease;max-width:min(80vw,620px)}
+html[data-canvas-view="reel"] #reelInfo{opacity:1;transform:translateY(0)}
+#reelInfo .t{font-weight:300;font-size:calc(clamp(28px,5vw,56px)*var(--rt));line-height:1;letter-spacing:normal;text-transform:uppercase}
+#reelInfo .c{margin-top:10px;font-size:calc(12px*var(--rm));font-weight:300;letter-spacing:normal;text-transform:uppercase;opacity:.6}
+#reelInfo .n{margin-top:6px;font-size:calc(11px*var(--rm));font-weight:300;letter-spacing:normal;opacity:.4}
+/* CMS list: hidden while the canvas runs; shown as a plain grid of links if WebGL is unavailable / lost */
+[data-canvas-list]{display:none}
+html.jb-canvas-fallback,html.jb-canvas-fallback body{overflow:auto!important;height:auto}
+html.jb-canvas-fallback #app{display:none}
+html.jb-canvas-fallback [data-canvas-list]{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:24px;
+  padding:96px clamp(16px,4vw,48px) 48px;position:relative;z-index:1}
+html.jb-canvas-fallback [data-canvas-list] a{color:#f3eede;text-decoration:none;display:block}
+html.jb-canvas-fallback [data-canvas-list] img{width:100%;height:auto;display:block;margin-bottom:10px}
